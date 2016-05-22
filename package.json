@@ -1,0 +1,24 @@
+{
+  "name": "react-native-simple-redux-router",
+  "version": "0.0.1",
+  "description": "A Simple react-native redux based router implementation targeting Native animations for layout transitions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harish2704/react-native-simple-redux-router.git"
+  },
+  "keywords": [
+    "react-native",
+    "router",
+    "redux"
+  ],
+  "author": "Harish.K <harish2704@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/harish2704/react-native-simple-redux-router/issues"
+  },
+  "homepage": "https://github.com/harish2704/react-native-simple-redux-router#readme"
+}
