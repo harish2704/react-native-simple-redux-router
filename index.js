@@ -26,11 +26,11 @@ var CustomLayoutLinear = {
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
-export function Route( ){ return <Text>This is Route</Text>; }
+function Route( ){ return <Text>This is Route</Text>; }
 
 
 
-export class Router extends Component{
+class Router extends Component{
 
   static contextTypes = { store: React.PropTypes.object.isRequired };
 
@@ -121,13 +121,12 @@ export class Router extends Component{
   }
 }
 
-
 const initialRouteState = {
   routes: [],
 }
 
 
-export  function reducer( state = initialRouteState, action ){
+function reducer( state = initialRouteState, action ){
   let stack = state.routes.slice();
 
   switch( action.type ){
@@ -149,7 +148,7 @@ export  function reducer( state = initialRouteState, action ){
 }
 
 
-export function Schema(){ return <View></View>; }
+function Schema(){ return <View></View>; }
 
 
 let styles = StyleSheet.create({
@@ -172,3 +171,4 @@ let styles = StyleSheet.create({
 });
 
 
+module.exports = { Route, Router, Schema, reducer }
