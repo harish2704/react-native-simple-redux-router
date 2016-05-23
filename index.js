@@ -110,8 +110,12 @@ export class Router extends Component{
     let route = this.routeData[ routeData.name ];
     return (
     <View style={styles.container}>
+      <View style={ styles.toolbarWrapper } >
         <Icon.ToolbarAndroid style={styles.toolbar} {...this.getNavBarOpts( route )} />
-        <route.component style={styles.component} {...route.params} />
+      </View>
+      <View style={styles.component} >
+        <route.component  {...route.params} />
+      </View>
     </View>
     );
   }
@@ -153,18 +157,17 @@ let styles = StyleSheet.create({
     backgroundColor: '#08dd50',
     height: 56,
   },
+  toolbarWrapper:{
+    height: 56,
+    borderColor: '#880000', borderStyle: 'solid', borderWidth: 2,
+  },
   component: {
-    top: 56,
-    position: 'absolute',
+    flex: 50,
+    borderColor: '#888800', borderStyle: 'solid', borderWidth: 2,
   },
   container: {
-    // backgroundColor: 'transparent',
-    // justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
+    flex: 1,
+    borderColor: '#880088', borderStyle: 'solid', borderWidth: 2,
   }
 });
 
