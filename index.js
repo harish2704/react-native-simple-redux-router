@@ -9,6 +9,8 @@ import {
   BackAndroid,
 } from 'react-native';
 
+import NavBar from './NavBar';
+
 
 var CustomLayoutLinear = {
   duration: 100,
@@ -27,6 +29,23 @@ UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationE
 class Router extends Component{
 
   static contextTypes = { store: React.PropTypes.object.isRequired };
+
+  static goto( store, name, params={} ){
+    store.dispatch({
+      type: 'ROUTER_PUSH',
+      payload: {
+        name: name,
+        data: params
+      }
+    });
+  }
+
+  static goBack( store ){
+    return store.dispatch({
+      type: 'ROUTER_POP',
+      payload:{}
+    });
+  }
 
   constructor( props ){
     super();
@@ -55,35 +74,11 @@ class Router extends Component{
   }
 
 
-  getNavBarOpts( route ){
-    if( route.toolBarOpts ){
-      return route.toolBarOpts;
-    }
-
-    let opts = {
-      title: route.title,
-      titleColor: 'white',
-      navIconName: 'md-arrow-back',
-      overflowIconName: 'md-more',
-      onIconClicked: this.handleIconClick,
-    };
-    if( route.onTitleSelect ){
-      opts.onActionSelected = route.onTitleSelect;
-    }
-
-    return opts;
-  }
-
-
   handleIconClick(){
     if( this.context.store.getState().router.routes.length === 1 ){
       return BackAndroid.exitApp();
     }
-
-    return this.context.store.dispatch({
-      type: 'ROUTER_POP',
-      payload:{}
-    });
+    Router.goBack( this.context.store );
   }
 
 
@@ -92,12 +87,24 @@ class Router extends Component{
   }
 
   componentDidMount(){
-    this.context.store.dispatch({
-      type: 'ROUTER_PUSH',
-      payload: {
-        name: this.initial.name
-      }
-    });
+    Router.goto( this.context.store, this.initial.name );
+  }
+
+
+  getNavBarOpts( route ){
+    let opts = {
+      title: route.title,
+      onNavLeftPress: this.handleIconClick,
+      navLeft: route.navLeft,
+    };
+    return opts;
+  }
+
+  renderNavbar( route ){
+    let navBarOpts = this.getNavBarOpts( route );
+    if( !route.hideNavBar ){
+      return <NavBar {...navBarOpts} />;
+    }
   }
 
   render(){
@@ -112,11 +119,8 @@ class Router extends Component{
     let route = this.routes[ routeData.name ];
     return (
     <View style={styles.container}>
-      <View style={ styles.toolbarWrapper } >
-      </View>
-      <View style={styles.component} >
-        <route.component  {...routeData.params} routerData={routeData.params} />
-      </View>
+      {this.renderNavbar( route )}
+      <route.component  {...routeData.params} routerData={routeData.params} />
     </View>
     );
   }
@@ -143,7 +147,7 @@ function reducer( state = initialRouteState, action ){
       break;
   }
   return {
-    ...state,
+    currentRoute: stack.length? stack[ stack.length -1 ].name : undefined,
     routes: stack,
   };
 }
