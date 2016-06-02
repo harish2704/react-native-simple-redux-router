@@ -9,10 +9,7 @@ import {
   BackAndroid,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
 
-
-console.log( LayoutAnimation.Properties, LayoutAnimation.Types );
 var CustomLayoutLinear = {
   duration: 100,
   create: {
@@ -26,9 +23,6 @@ var CustomLayoutLinear = {
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
-function Route( ){ return <Text>This is Route</Text>; }
-
-
 
 class Router extends Component{
 
@@ -36,20 +30,28 @@ class Router extends Component{
 
   constructor( props ){
     super();
-    let routeData = {};
-    React.Children.forEach( props.children, ( child ) =>{
-      let { name, component, title, toolBarOpts } = child.props;
-      let route = {
-        component: component,
-        name: name,
-        title: title || '',
-        toolBarOpts: toolBarOpts,
-      };
-      routeData[name] = route;
-    });
-    this.routeData = routeData;
-    this.initial = routeData[ props.initial ];
+    this.routes = this.parseRoutes( props.children );
+    this.initial = this.routes[ props.initial ];
     this.handleIconClick = this.handleIconClick.bind(this);
+  }
+
+  parseRoutes( children, storage = {} ){
+    React.Children.forEach( children, ( child ) =>{
+      console.log( child.type );
+      let childType = child.type.prototype.constructor.name;
+      switch( childType ){
+        case 'TabRoute':
+          this.parseRoutes( child.props.children, storage );
+          break;
+        case 'Route':
+          storage[child.props.name] = child.props;
+          break;
+        default:
+          console.log( 'Invalid type of element passed to routes ', childType );
+          break;
+      }
+    });
+    return storage;
   }
 
 
@@ -107,14 +109,13 @@ class Router extends Component{
     }
 
     let routeData = routes[ routes.length -1 ];
-    let route = this.routeData[ routeData.name ];
+    let route = this.routes[ routeData.name ];
     return (
     <View style={styles.container}>
       <View style={ styles.toolbarWrapper } >
-        <Icon.ToolbarAndroid style={styles.toolbar} {...this.getNavBarOpts( route )} />
       </View>
       <View style={styles.component} >
-        <route.component  {...route.params} />
+        <route.component  {...routeData.params} routerData={routeData.params} />
       </View>
     </View>
     );
@@ -148,7 +149,9 @@ function reducer( state = initialRouteState, action ){
 }
 
 
-function Schema(){ return <View></View>; }
+class Schema extends Component{ }
+class Route extends Component{ }
+class TabRoute extends Component{ }
 
 
 let styles = StyleSheet.create({
@@ -171,4 +174,4 @@ let styles = StyleSheet.create({
 });
 
 
-module.exports = { Route, Router, Schema, reducer }
+module.exports = { Route, TabRoute, Router, Schema, reducer }
