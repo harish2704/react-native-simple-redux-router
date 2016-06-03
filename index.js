@@ -83,7 +83,7 @@ class Router extends Component{
 
 
   componentWillUpdate() {
-    LayoutAnimation.configureNext( CustomLayoutLinear );
+    // LayoutAnimation.configureNext( CustomLayoutLinear );
   }
 
   componentDidMount(){
@@ -159,20 +159,10 @@ class TabRoute extends Component{ }
 
 
 let styles = StyleSheet.create({
-  toolbar: {
-    backgroundColor: '#08dd50',
-    height: 56,
-  },
-  toolbarWrapper:{
-    height: 56,
-    borderColor: '#880000', borderStyle: 'solid', borderWidth: 2,
-  },
-  component: {
-    flex: 50,
-    borderColor: '#888800', borderStyle: 'solid', borderWidth: 2,
-  },
   container: {
+    flexDirection: 'column',
     flex: 1,
+    alignSelf: 'stretch',
     borderColor: '#880088', borderStyle: 'solid', borderWidth: 2,
   }
 });
