@@ -39,7 +39,7 @@ export default class NavBar extends Component {
         <Icon {...props.navLeftIcon} />
       )
     }
-    return ( <Icon onPress={props.onNavLeftPress} name="chevron-left" size={45} color="#FFFFFF" style={styles.navLeft} /> )
+    return ( <Icon onPress={props.onNavLeftPress} name="navigate-before" size={45} color="#FFFFFF" style={styles.navLeft} /> )
   }
 
   renderBody(){
