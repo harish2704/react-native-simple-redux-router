@@ -13,13 +13,14 @@ import NavBar from './NavBar';
 
 
 var CustomLayoutLinear = {
-  duration: 100,
+  duration: 200,
   create: {
     type: LayoutAnimation.Types.linear,
     property: LayoutAnimation.Properties.scaleXY,
   },
   update: {
-    type: LayoutAnimation.Types.curveEaseInEaseOut,
+    type: LayoutAnimation.Types.linear,
+    property: LayoutAnimation.Properties.scaleXY,
   },
 };
 
@@ -83,7 +84,7 @@ class Router extends Component{
 
 
   componentWillUpdate() {
-    // LayoutAnimation.configureNext( CustomLayoutLinear );
+    LayoutAnimation.configureNext( CustomLayoutLinear );
   }
 
   componentDidMount(){
@@ -170,7 +171,7 @@ let styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     alignSelf: 'stretch',
-    borderColor: '#880088', borderStyle: 'solid', borderWidth: 2,
+    // borderColor: '#880088', borderStyle: 'solid', borderWidth: 2, backgroundColor: '#ff0000',
   }
 });
 
