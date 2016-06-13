@@ -142,6 +142,13 @@ function reducer( state = initialRouteState, action ){
         params: action.payload.data || {},
       });
       break;
+    case 'ROUTER_REPLACE':
+      stack.pop();
+      stack.push({
+        name: action.payload.name,
+        params: action.payload.data || {},
+      });
+      break;
     case 'ROUTER_POP':
       stack.pop();
       break;
